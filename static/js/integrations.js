@@ -5,12 +5,10 @@ const gitleaksIntegration = {
     },
     props: ['instance_name', 'display_name', 'default_template', 'logo_src', 'section_name'],
     emits: ['update'],
-    template: `
-<div
-    :id="modal_id"
-    class="modal modal-small fixed-left fade shadow-sm" tabindex="-1" role="dialog"
->
-    <ModalDialog
+    template: `<div :id="modal_id"
+        class="modal modal-small fixed-left fade shadow-sm" tabindex="-1" role="dialog"
+    >
+        <ModalDialog
             v-model:description="description"
             v-model:is_default="is_default"
             @update="update"
@@ -19,10 +17,9 @@ const gitleaksIntegration = {
             :id="id"
             :is_fetching="is_fetching"
             :is_default="is_default"
-    >
+        >
         <template #body>
             <div class="form-group">
-
                 <div class="form-group">
                     <h9>Scan Options</h9>
                     <div class="row p-2 pl-4">
@@ -62,7 +59,6 @@ const gitleaksIntegration = {
                             </label>
                         </div>
                     </div>
-
 
                     <div class="row p-2 pl-4">
                         <div class="col">
@@ -143,8 +139,8 @@ const gitleaksIntegration = {
                 description,
                 is_default,
                 project_id,
-                save_intermediates_to,
 
+                save_intermediates_to,
                 squash_commits,
                 show_offender_line,
                 redact_offenders,

@@ -1,4 +1,4 @@
-const gitleaksIntegration = {
+const GitleaksIntegration = {
     delimiters: ['[[', ']]'],
     props: ['instance_name', 'section', 'selected_integration', 'is_selected', 'integration_data'],
     emits: ['set_data', 'clear_data'],
@@ -11,7 +11,9 @@ const gitleaksIntegration = {
                 description,
                 is_default,
                 selected_integration: id,
+
                 save_intermediates_to,
+                
                 squash_commits,
                 show_offender_line,
                 redact_offenders,
@@ -21,14 +23,14 @@ const gitleaksIntegration = {
                 custom_rules_path,
                 additional_text,
                 commit_line_limit,
-
-
             } = this
             return {
                 description,
                 is_default,
                 id,
+
                 save_intermediates_to,
+
                 squash_commits,
                 show_offender_line,
                 redact_offenders,
@@ -81,11 +83,13 @@ const gitleaksIntegration = {
             // toggle: false,
             error: {},
             save_intermediates_to: '/data/intermediates/sast',
+
             squash_commits:false,
-            show_offender_line: true,
+            show_offender_line: false,
             redact_offenders: false,
             hide_commit_author: false,
             use_custom_rules: false,
+
             custom_rules_path: "",
             additional_text: "",
             commit_line_limit: 15,
@@ -102,95 +106,96 @@ const gitleaksIntegration = {
                 </div>
             </div>
             <div class="form-group">
-                <div class="form-group">
-                    <h9>Scan Options</h9>
-                    <div class="row p-2 pl-4">
-                        <div class="col">
-                            <label class="custom-checkbox align-items-center mr-3">
-                                <input type="checkbox" v-model="squash_commits">
-                                <h9 class="ml-1">
-                                    Show Commits
-                                </h9>
-                            </label>
+                <form autocomplete="off">
+                    <div class="form-group">
+                        <h9>Scan Options</h9>
+                        <div class="row p-2 pl-4">
+                            <div class="col">
+                                <label class="custom-checkbox align-items-center mr-3">
+                                    <input type="checkbox" name="squash_commits" v-model="squash_commits">
+                                    <h9 class="ml-1">
+                                        Show Commits
+                                    </h9>
+                                </label>
+                            </div>
+                            <div class="col">
+                                <label class="custom-checkbox align-items-center mr-3">
+                                    <input type="checkbox" v-model="show_offender_line" name="show_offender_line">
+                                    <h9 class="ml-1">
+                                        Show Offender Line
+                                    </h9>
+                                </label>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label class="custom-checkbox align-items-center mr-3">
-                                <input type="checkbox" v-model="show_offender_line">
-                                <h9 class="ml-1">
-                                    Show Offender Line
-                                </h9>
-                            </label>
+
+                        <div class="row p-2 pl-4">
+                            <div class="col">
+                                <label class="custom-checkbox align-items-center mr-3">
+                                    <input type="checkbox" v-model="redact_offenders" name="redact_offenders">
+                                    <h9 class="ml-1">
+                                        Redact Offenders
+                                    </h9>
+                                </label>
+                            </div>
+                            <div class="col">
+                                <label class="custom-checkbox align-items-center mr-3">
+                                    <input type="checkbox" v-model="hide_commit_author" name="hide_commit_author">
+                                    <h9 class="ml-1">
+                                        Hide Commit Author
+                                    </h9>
+                                </label>
+                            </div>
                         </div>
+
+
+                        <div class="row p-2 pl-4">
+                            <div class="col">
+                                <label class="custom-checkbox align-items-center mr-3">
+                                    <input type="checkbox" v-model="use_custom_rules" name="use_custom_rules">
+                                    <h9 class="ml-1">
+                                        Use Custom Rules
+                                    </h9>
+                                </label>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="row p-2 pl-4">
-                        <div class="col">
-                            <label class="custom-checkbox align-items-center mr-3">
-                                <input type="checkbox" v-model="redact_offenders">
-                                <h9 class="ml-1">
-                                    Redact Offenders
-                                </h9>
-                            </label>
-                        </div>
-                        <div class="col">
-                            <label class="custom-checkbox align-items-center mr-3">
-                                <input type="checkbox" v-model="hide_commit_author">
-                                <h9 class="ml-1">
-                                    Hide Commit Author
-                                </h9>
-                            </label>
-                        </div>
-                    </div>
+                    <h9>Save intermediates to</h9>
+                    <p>
+                        <h13>Optional</h13>
+                    </p>
+                    <input type="text" class="form-control form-control-alternative"
+                        placeholder=""
+                        v-model="save_intermediates_to"
+                        :class="{ 'is-invalid': error.save_intermediates_to }">
+                    <div class="invalid-feedback">[[ error.save_intermediates_to ]]</div>
 
+                    <h9>Additional text</h9>
+                    <p>
+                        <h13>Optional</h13>
+                    </p>
+                    <input type="text" class="form-control form-control-alternative"
+                        placeholder="additional options"
+                        v-model="additional_text"
+                        :class="{ 'is-invalid': error.scan_opts }">
+                    <div class="invalid-feedback">[[ error.scan_opts ]]</div>
 
-                    <div class="row p-2 pl-4">
-                        <div class="col">
-                            <label class="custom-checkbox align-items-center mr-3">
-                                <input type="checkbox" v-model="use_custom_rules">
-                                <h9 class="ml-1">
-                                    Use Custom Rules
-                                </h9>
-                            </label>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <h9>Save intermediates to</h9>
-                <p>
-                    <h13>Optional</h13>
-                </p>
-                <input type="text" class="form-control form-control-alternative"
-                    placeholder=""
-                    v-model="save_intermediates_to"
-                    :class="{ 'is-invalid': error.save_intermediates_to }">
-                <div class="invalid-feedback">[[ error.save_intermediates_to ]]</div>
-
-                <h9>Additional text</h9>
-                <p>
-                    <h13>Optional</h13>
-                </p>
-                <input type="text" class="form-control form-control-alternative"
-                    placeholder="additional options"
-                    v-model="additional_text"
-                    :class="{ 'is-invalid': error.scan_opts }">
-                <div class="invalid-feedback">[[ error.scan_opts ]]</div>
-
-                <h9>Path to custom rules</h9>
-                <p>
-                    <h13>Optional</h13>
-                </p>
-                <input type="text" class="form-control form-control-alternative"
-                    placeholder=""
-                    v-model="custom_rules_path"
-                    :class="{ 'is-invalid': error.scan_path }">
-                <div class="invalid-feedback">[[ error.scan_path ]]</div>            
+                    <h9>Path to custom rules</h9>
+                    <p>
+                        <h13>Optional</h13>
+                    </p>
+                    <input type="text" class="form-control form-control-alternative"
+                        placeholder=""
+                        v-model="custom_rules_path"
+                        :class="{ 'is-invalid': error.scan_path }">
+                    <div class="invalid-feedback">[[ error.scan_path ]]</div>
+                </form>         
             </div>
         </div>
     `
 }
 
 
-register_component('scanner-gitleaks', gitleaksIntegration)
+register_component('scanner-gitleaks', GitleaksIntegration)
 
